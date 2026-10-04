@@ -1,0 +1,294 @@
+/*
+  Name:    Sri Krishna Teja Gangina
+  Section: Web Programming
+  Assignment 2: My Movie Review (MMR)
+
+  Description:
+    External style sheet for index.html (TMNT 2007 review page).
+
+  File contents:
+    1. Page, banner and title
+    2. Content frame (CSS Grid)
+    3. Rating header
+    4. Reviews (Flexbox)
+    5. General Overview sidebar and counter bar
+    6. Validator links (Flexbox, fixed)
+    7. Responsive rules (700px and 480px)
+    (Print rules live in print.css.)
+
+  Layout decisions:
+    - Grid: the 800px (content width) #content frame has a flexible main column (550px at full
+      width) and a fixed 250px overview column. Named areas place the rating,
+      reviews, overview and counter bar. At 700px and below the areas stack.
+      Fallback: browsers without grid get a float layout (same two columns);
+      an @supports (display: grid) block cancels the floats.
+    - Flexbox: #reviews holds the two review columns (47% each, 2% spacing);
+      each .quote and .critic uses flex to align its icon and text without
+      spacer elements; #validators lays out the badge links with flex and wrap.
+    - 700px: one column, reviews stacked, overview below the reviews,
+      validator links no longer fixed so they never cover content.
+    - 480px: smaller outer spacing, tighter title, banner clipped, no
+      horizontal scrolling.
+*/
+
+/* 1. Page, banner and title ------------------------------------------------ */
+body {
+  margin: 0;
+  padding: 0;
+  background: url("background.png");
+  font: 8pt Verdana, Tahoma, sans-serif;
+}
+
+#banner {
+  display: flex;
+  justify-content: center;
+  height: 50px;
+  overflow: hidden;
+  background: url("bannerbackground.png") repeat-x;
+}
+
+#banner img {
+  flex: none;
+  height: 50px;
+}
+
+h1 {
+  margin: 20px 0;
+  text-align: center;
+  font: bold 24pt Tahoma, Verdana, sans-serif;
+}
+
+a:focus,
+a:hover {
+  outline: 2px solid #1b3f8b;
+  outline-offset: 2px;
+}
+
+#skip a {
+  position: absolute;
+  left: -9999px;
+  padding: 5px 10px;
+  background: white;
+}
+
+#skip a:focus {
+  left: 5px;
+  top: 5px;
+  z-index: 10;
+}
+
+/* 2. Content frame (Grid, with float fallback) ----------------------------- */
+#content {
+  width: 800px;
+  max-width: calc(100% - 8px);
+  margin: 0 auto;
+  border: 4px solid gray;
+  overflow: hidden;
+}
+
+#rating,
+#reviews {
+  float: left;
+  width: calc(100% - 250px);
+}
+
+#overview {
+  float: right;
+  width: 250px;
+}
+
+#counter {
+  clear: both;
+}
+
+@supports (display: grid) {
+  #content {
+    display: grid;
+    grid-template-columns: 1fr 250px;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+      "rating   overview"
+      "reviews  overview"
+      "counter  counter";
+  }
+
+  #rating,
+  #reviews,
+  #overview {
+    float: none;
+    width: auto;
+  }
+}
+
+/* 3. Rating header --------------------------------------------------------- */
+#rating {
+  grid-area: rating;
+  display: flex;
+  align-items: flex-end;
+  height: 83px;
+  background: url("rottenbackground.png") repeat-x;
+}
+
+#percent {
+  margin: 0 5px;
+  color: red;
+  font: bold 48pt Verdana, Tahoma, sans-serif;
+  line-height: 1;
+}
+
+#total {
+  padding-bottom: 12px;
+  color: white;
+}
+
+/* 4. Reviews (Flexbox) ----------------------------------------------------- */
+#reviews {
+  grid-area: reviews;
+  display: flex;
+  align-items: flex-start;
+  padding: 10px 0;
+}
+
+.column {
+  width: 47%;
+  margin-left: 2%;
+}
+
+.review {
+  margin-bottom: 20px;
+}
+
+.quote {
+  display: flex;
+  align-items: flex-start;
+  margin: 0;
+  padding: 8px;
+  border: 2px solid gray;
+  background: #E1D697;
+  font-weight: bold;
+}
+
+.quote img {
+  flex: none;
+  width: 20px;
+  margin-right: 5px;
+}
+
+.critic {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 8px 0 0 5px;
+  font-style: italic;
+}
+
+.critic img {
+  width: 20px;
+  margin-right: 5px;
+}
+
+/* 5. General Overview sidebar and counter bar ------------------------------ */
+#overview {
+  grid-area: overview;
+  background: #A2B964;
+  font-family: Arial, sans-serif;
+}
+
+#overview img {
+  display: block;
+  width: 250px;
+  max-width: 100%;
+}
+
+#overview dl {
+  margin: 0;
+  padding: 10px;
+}
+
+#overview dt {
+  margin-top: 8px;
+  font-weight: bold;
+}
+
+#overview dd {
+  margin-left: 30px;
+}
+
+#counter {
+  grid-area: counter;
+  margin: 0;
+  padding: 5px;
+  background: #A2B964;
+  text-align: center;
+}
+
+/* 6. Validator links (Flexbox, fixed) -------------------------------------- */
+#validators {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+#validators img {
+  display: block;
+  border: 0;
+}
+
+/* 7. Responsive rules ------------------------------------------------------ */
+@media (max-width: 700px) {
+  #rating,
+  #reviews,
+  #overview {
+    float: none;
+    width: auto;
+  }
+
+  #content {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+      "rating"
+      "reviews"
+      "overview"
+      "counter";
+  }
+
+  #reviews {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .column {
+    width: 96%;
+  }
+
+  #overview img {
+    margin: 0 auto;
+  }
+
+  #validators {
+    position: static;
+    flex-direction: row;
+    justify-content: center;
+    padding: 10px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    margin: 12px 0;
+    font-size: 18pt;
+  }
+
+  #percent {
+    font-size: 36pt;
+  }
+
+  #rating {
+    height: 83px;
+  }
+}

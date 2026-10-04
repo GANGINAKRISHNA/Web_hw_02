@@ -1,0 +1,82 @@
+/*
+  Name:    Sri Krishna Teja Gangina
+  Section: Web Programming
+  Assignment 2: My Movie Review (MMR)
+
+  Description:
+    Print-only style sheet for index.html (linked with media="print").
+
+  File contents:
+    Clean black-on-white single-column layout; hides banner, skip link and
+    validator badges; shows link addresses; avoids splitting review boxes.
+*/
+
+body {
+  background: none;
+  color: black;
+  font: 10pt Georgia, serif;
+}
+
+#banner,
+#skip,
+#validators,
+#rating img,
+#overview img {
+  display: none;
+}
+
+#content {
+  display: block;
+  width: auto;
+  border: 1px solid black;
+}
+
+#rating,
+#reviews,
+#overview {
+  float: none;
+  width: auto;
+  background: none;
+}
+
+#rating {
+  height: auto;
+  color: black;
+}
+
+#percent,
+#total {
+  color: black;
+}
+
+#reviews {
+  display: block;
+}
+
+.column {
+  width: auto;
+  margin: 0;
+}
+
+.review {
+  break-inside: avoid;
+}
+
+.quote {
+  background: none;
+  border: 1px solid black;
+}
+
+#overview,
+#counter {
+  background: none;
+  border-top: 1px solid black;
+}
+
+a {
+  color: black;
+}
+
+#overview a::after {
+  content: " (" attr(href) ")";
+}
